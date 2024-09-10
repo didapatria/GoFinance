@@ -6,7 +6,18 @@ export async function GET(
   { params }: { params: { id: string } },
 ) {
   try {
-    const user = await prisma.user.findUnique({ where: { id: params.id } });
+    const user = await prisma.user.findUnique({
+      where: { id: params.id },
+      select: {
+        id: true,
+        name: true,
+        username: true,
+        email: true,
+        phone: true,
+        address: true,
+        role: true,
+      },
+    });
     if (!user)
       return NextResponse.json(
         { message: "Sorry, user not found." },
